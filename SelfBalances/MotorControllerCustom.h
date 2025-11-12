@@ -24,7 +24,7 @@ void initMotor() {
 void moveMotor(double power) {
   power = constrain(power, -255, 255);
   if (abs(power) < 10) power = 0;
-  motor.move(power, 20);
+  motor.move((int)power);
 }
 
 #endif

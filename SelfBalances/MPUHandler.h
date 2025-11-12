@@ -9,20 +9,28 @@ extern float prevAngle;
 
 void initMPU() {
   mpu.initialize();
-  mpu.setXAccelOffset(-1500);
-  mpu.setYAccelOffset(200);
-  mpu.setZAccelOffset(800);
+  mpu.setXAccelOffset(1032);
+  mpu.setYAccelOffset(1404);
+  mpu.setZAccelOffset(1059);
 
-  mpu.setXGyroOffset(50);
-  mpu.setYGyroOffset(-10);
-  mpu.setZGyroOffset(30);
+  mpu.setXGyroOffset(128);
+  mpu.setYGyroOffset(-22);
+  mpu.setZGyroOffset(32);
 }
 
 float getAngle() {
   static unsigned long lastTime = millis();
   unsigned long now = millis();
+  
+  if (lastTime == 0) {
+    lastTime = now;
+    return prevAngle;
+  }
+
   float dt = (now - lastTime) / 1000.0;
   lastTime = now;
+
+  if (dt > 0.1) dt = 0.01;
 
   int16_t ax, ay, az, gx, gy, gz;
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
