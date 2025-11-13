@@ -19,7 +19,7 @@ void initMPU() {
 }
 
 float getAngle() {
-  static unsigned long lastTime = millis();
+  static unsigned long lastTime = 0;
   unsigned long now = millis();
   
   if (lastTime == 0) {
@@ -35,8 +35,8 @@ float getAngle() {
   int16_t ax, ay, az, gx, gy, gz;
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  float angleAcc = atan2(ay, az) * 180.0 / PI;
-  float angleGyro = prevAngle + (gx / 131.0) * dt;
+  float angleAcc = atan2(ax, az) * 180.0 / PI;
+  float angleGyro = prevAngle + (gy / 131.0) * dt;
   float angle = 0.98 * angleGyro + 0.02 * angleAcc;
 
   prevAngle = angle;
